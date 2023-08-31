@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutPublic.cshtml";
+}
+
+<h2 class="text-center mt-5">Login</h2>
+
+<div class="row justify-content-center">
+    <form id="frm" class="col-lg-4">
+        <div class="mb-3">
+            <label for="user" class="form-label">Usuario</label>
+            <input type="text" class="form-control" id="user" name="user" />
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" />
+        </div>
+        <div class="text-center">
+            <input type="submit" class="btn btn-success" value="Entrar" />
+        </div>
+    </form>
+</div>
+
+@section scripts{
+    <script>
+    $(document).ready(function () {
+        $("#frm").submit(function (e) {
+            e.preventDefault();
+            var url = "@Url.Action("Login", "Login")"; // Cambia a Url.Action
+            var parametros = $(this).serialize();
+
+            $.post(url, parametros)
+            .done(function (data) {
+                if (data === "1") {
+                    window.location.href = "@Url.Content("~/Home/HomeWelcome")";  // Redireccionar a la página de inicio
+
+                } else {
+                    alert(data);  // Mostrar mensaje de error
+                }
+            })
+            .fail(function (error) {
+                alert("Ocurrió un error al procesar la solicitud.");  // Mostrar mensaje de error genérico
+            });
+        });
+    });
+    </script>
+}
